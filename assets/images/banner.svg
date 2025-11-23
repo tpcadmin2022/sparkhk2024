@@ -1,0 +1,31 @@
+<!-- Local banner SVG - scalable and lightweight; visually consistent with original design -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 480" role="img" aria-label="Shipping containers and world map banner">
+  <title>Global trade logistics banner</title>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1">
+      <stop offset="0" stop-color="#007bff"/>
+      <stop offset="1" stop-color="#0056b3"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg)"/>
+  <g fill="#ffffff" opacity="0.12">
+    <!-- stylized containers -->
+    <rect x="120" y="160" width="220" height="110" rx="6"/>
+    <rect x="360" y="170" width="260" height="100" rx="6"/>
+    <rect x="640" y="150" width="300" height="130" rx="6"/>
+  </g>
+
+  <g transform="translate(50,40)">
+    <g fill="#fff" opacity="0.95">
+      <text x="0" y="70" font-size="44" font-family="Segoe UI, Roboto, Arial, sans-serif" font-weight="700">Global operations</text>
+      <text x="0" y="115" font-size="20" font-family="Segoe UI, Roboto, Arial, sans-serif">Reliable freight forwarding & customs clearance</text>
+    </g>
+  </g>
+
+  <!-- world map hint using simple circles to imply global reach -->
+  <g fill="#fff" opacity="0.08">
+    <circle cx="1250" cy="100" r="40"/>
+    <circle cx="1400" cy="180" r="30"/>
+    <circle cx="1320" cy="260" r="22"/>
+  </g>
+</svg>

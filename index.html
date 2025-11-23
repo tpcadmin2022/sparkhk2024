@@ -1,50 +1,15 @@
-**PR Title:** refactor: remove all external dependencies by localizing assets and resources
-
-**PR Description:**  
-As per the request, I reviewed the entire repository codebase, including all HTML, CSS, JS, image, and other asset files. The project appears to be a static website for Spark International HK Limited, using plain HTML5 with no evident frameworks like Tailwind or React. The folder structure is simple: root-level files including `index.html`, `styles.css`, `script.js`, `images/` directory with logo.png, banner.jpg, and icons/, plus a `fonts/` directory for custom fonts.
-
-Analysis revealed the following external dependencies:  
-- Google Fonts loaded via `<link>` in `index.html` (https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap).  
-- jQuery from CDN in `script.js` (https://code.jquery.com/jquery-3.6.0.min.js).  
-- Bootstrap CSS from CDN in `index.html` (https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css).  
-- One external image in `index.html` (https://example.com/external-banner.jpg for a promotional banner).  
-
-To eliminate all external dependencies, I:  
-- Downloaded the Google Fonts CSS and font files (WOFF2 format for Inter 400, 600, 700), placed them in a new `assets/fonts/` directory, and updated the CSS `@font-face` declarations in a localized `assets/css/fonts.css` file. Updated `index.html` to link to this local file.  
-- Downloaded the jQuery minified JS and placed it in `assets/js/jquery-3.6.0.min.js`. Updated the script src in `index.html` to point locally.  
-- Downloaded Bootstrap CSS minified and placed in `assets/css/bootstrap.min.css`. Updated the link in `index.html`. (Note: No JS for Bootstrap was used, so not included to keep minimal.)  
-- Downloaded the external image and renamed it to `assets/images/local-banner.jpg`, updated the img src in `index.html`.  
-
-This ensures the website loads entirely from the source server with no external requests, improving privacy, performance, and reliability (no CDN downtime risks). No functionality changes; only paths updated. Mobile-first responsive design preserved using existing semantic HTML and Bootstrap utilities. Accessibility maintained with aria-labels and alt texts.  
-
-Tested mentally: Site renders identically, all resources local.  
-
-**Files Changed:**  
-- Modified: `index.html` - Updated all external links to local paths for styles, scripts, fonts, and images.  
-- Modified: `styles.css` - Imported local fonts.css for font declarations.  
-- Created: `assets/css/fonts.css` - Local Google Fonts CSS with @font-face.  
-- Created: `assets/css/bootstrap.min.css` - Downloaded Bootstrap CSS.  
-- Created: `assets/js/jquery-3.6.0.min.js` - Downloaded jQuery.  
-- Created: `assets/images/local-banner.jpg` - Downloaded external image (binary, describe as promotional banner image 1920x600px).  
-- Created: `assets/fonts/Inter-Regular.woff2` - Font file (binary).  
-- Created: `assets/fonts/Inter-Medium.woff2` - Font file (binary).  
-- Created: `assets/fonts/Inter-Bold.woff2` - Font file (binary).  
-- No deletions.  
-
-**Screenshot Description:** No visual changes; site looks identical but inspect element shows all resources loading from `/assets/` paths. Live preview: Serve via `npx serve` to verify no network requests to external domains.
-
-```
-index.html
-```
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Spark International HK Limited - Global Trade Made Simple</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+
+    <!-- Local vendor CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Localized fonts (no external Google Fonts) -->
     <link rel="stylesheet" href="assets/css/fonts.css">
 </head>
 <body>
@@ -52,7 +17,7 @@ index.html
         <nav class="navbar navbar-expand-lg navbar-light bg-light" aria-label="Main navigation">
             <div class="container">
                 <a class="navbar-brand" href="#home" aria-label="Spark International Home">
-                    <img src="images/logo.png" alt="Spark International HK Limited Logo" width="150" height="50">
+                    <img src="assets/img/logo.webp" alt="Spark International HK Limited Logo" width="150" height="50">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -73,7 +38,7 @@ index.html
             <div class="container">
                 <h1 class="display-4 fw-bold">Global Trade Made Simple</h1>
                 <p class="lead">Your trusted partner in international logistics and supply chain solutions.</p>
-                <img src="assets/images/local-banner.jpg" alt="Global trade logistics banner showing shipping containers and world map" class="img-fluid mb-4" width="100%" height="auto">
+                <img src="assets/img/banner.webp" alt="Global trade logistics banner showing shipping containers and world map" class="img-fluid mb-4" width="100%" height="auto">
                 <a href="#services" class="btn btn-light btn-lg" aria-label="Explore our services">Get Started</a>
             </div>
         </section>
@@ -81,7 +46,7 @@ index.html
         <section id="about" class="py-5">
             <div class="container">
                 <h2 class="text-center mb-4">About Spark International</h2>
-                <p class="text-center">Established in 2024, Spark International HK Limited specializes in seamless global trade facilitation. With over 250+ shipments handled, we ensure efficiency and reliability.</p>
+                <p class="text-center">Established in 2024, Spark International HK Limited specializes in seamless global trade facilitation. With over 250+ shipments handled, we ensure efficiency at every stage of the supply chain.</p>
             </div>
         </section>
 
@@ -145,7 +110,6 @@ index.html
                             </div>
                         </div>
                     </div>
-                    <!-- Additional FAQ items can be added similarly -->
                 </div>
             </div>
         </section>
@@ -180,192 +144,8 @@ index.html
         </div>
     </footer>
 
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <!-- Local vendor JS -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
-```
-
-```
-styles.css
-```
-```css
-/* Custom styles for Spark HK site - Mobile-first */
-
-/* Import local fonts */
-@import url('assets/css/fonts.css');
-
-/* Reset and base */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
-
-.container {
-    max-width: 1200px;
-}
-
-/* Hero section overrides */
-.hero-section {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-}
-
-.hero-section h1 {
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-}
-
-.lead {
-    font-size: 1.25rem;
-    font-weight: 400;
-}
-
-/* Cards */
-.card {
-    border: none;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-title {
-    font-weight: 600;
-    color: #007bff;
-}
-
-/* Form styles */
-#contactForm label {
-    font-weight: 600;
-}
-
-#contactForm .form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
-}
-
-/* Footer */
-footer p {
-    font-size: 0.9rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .navbar-brand img {
-        width: 120px;
-    }
-    
-    .hero-section .btn-lg {
-        padding: 0.75rem 2rem;
-        font-size: 1rem;
-    }
-}
-
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-```
-
-```
-assets/css/fonts.css
-```
-```css
-/* Local Google Fonts - Inter Family */
-
-/* Inter Regular 400 */
-@font-face {
-    font-family: 'Inter';
-    src: url('../fonts/Inter-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* Inter Medium 600 */
-@font-face {
-    font-family: 'Inter';
-    src: url('../fonts/Inter-Medium.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* Inter Bold 700 */
-@font-face {
-    font-family: 'Inter';
-    src: url('../fonts/Inter-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* Fallback */
-body {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-```
-
-```
-script.js
-```
-```js
-// Vanilla JS enhanced with local jQuery for compatibility - Minimal usage
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-
-    // Contact form submission (vanilla JS)
-    const form = document.getElementById('contactForm');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Simulate submission - In production, send to server
-            alert('Thank you for your message! We\'ll get back to you soon.');
-            this.reset();
-        });
-    }
-
-    // Navbar collapse on mobile (using Bootstrap's data attributes, no extra JS needed)
-    // But for custom toggle if needed, use jQuery sparingly
-    if (typeof jQuery !== 'undefined') {
-        jQuery(document).ready(function($) {
-            // Example: Fade in elements on scroll (optional enhancement)
-            $(window).on('scroll', function() {
-                $('.card').each(function() {
-                    if ($(this).offset().top < $(window).scrollTop() + $(window).height() * 0.8) {
-                        $(this).addClass('animate__fadeIn');
-                    }
-                });
-            });
-        });
-    }
-
-    // Performance: No unused code
-});
-```

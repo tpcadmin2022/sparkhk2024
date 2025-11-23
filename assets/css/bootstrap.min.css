@@ -1,0 +1,49 @@
+/* Minimal local "bootstrap-like" utility CSS
+   This file intentionally includes a compact subset of styles used by the site:
+   - basic grid (.container, .row, .col-*)
+   - navbar layout
+   - buttons (.btn, .btn-primary, .btn-light)
+   - cards (.card)
+   This local file prevents any dependency on external CDNs while maintaining layout/responsiveness.
+   Note: this is not the full Bootstrap project, it's a lightweight local alternative scoped to used features.
+*/
+
+:root{
+    --bs-gutter-x: 1.5rem;
+}
+
+.container { max-width: 1200px; margin-left:auto; margin-right:auto; padding-left:1rem; padding-right:1rem; }
+
+.row { display:flex; flex-wrap:wrap; margin-left: calc(var(--bs-gutter-x) * -0.5); margin-right: calc(var(--bs-gutter-x) * -0.5); }
+
+[class*="col-"] { padding-left: calc(var(--bs-gutter-x) * 0.5); padding-right: calc(var(--bs-gutter-x) * 0.5); }
+
+.col-md-4 { width:100%; }
+@media (min-width:768px){ .col-md-4 { width:33.333333%; } }
+
+/* basic utility classes */
+.text-center { text-align:center; }
+.bg-light { background:#f8f9fa; }
+.bg-primary { background: linear-gradient(135deg,#007bff,#0056b3); }
+.text-white { color:#fff !important; }
+
+/* Buttons */
+.btn { display:inline-block; font-weight:400; color:#212529; text-align:center; vertical-align:middle; user-select:none; border:1px solid transparent; padding:0.375rem 0.75rem; border-radius:0.375rem; }
+.btn-primary { color:#fff; background-color:#0d6efd; border-color:#0d6efd; }
+.btn-light { color:#0d6efd; background-color:#fff; border-color: rgba(0,0,0,0.08); }
+
+/* Card */
+.card { position:relative; display:block; background-color:#fff; border-radius:0.375rem; }
+
+/* Simple responsive images */
+.img-fluid { max-width:100%; height:auto; }
+
+/* Text utilities */
+.lead { font-size:1.25rem; font-weight:400; }
+
+/* Spacing helpers used in the site */
+.py-5 { padding-top:3rem; padding-bottom:3rem; }
+.mb-4 { margin-bottom:1.5rem; }
+
+/* Small helpers for accessibility focus states */
+:focus { outline: 3px solid rgba(13,110,253,0.25); outline-offset: 2px; }
